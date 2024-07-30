@@ -3,31 +3,88 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 220, 220, 220;
+  --background-start-rgb: 0, 10, 15;
+  --background-end-rgb: 0, 20, 30;
+  --primary-color: 0, 255, 65;
+  --secondary-color: 0, 200, 80;
+  --accent-color: 0, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb: 10, 25, 30;
+    --background-start-rgb: 240, 255, 240;
+    --background-end-rgb: 220, 255, 220;
+    --primary-color: 0, 180, 80;
+    --secondary-color: 0, 150, 70;
+    --accent-color: 0, 200, 200;
   }
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    to bottom,
+    rgba(var(--background-start-rgb), 0.9),
+    rgba(var(--background-end-rgb), 1)
+  ),
+  repeating-linear-gradient(
+    0deg,
+    rgba(var(--primary-color), 0.1),
+    rgba(var(--primary-color), 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  background-size: 100% 100%, 100% 4px;
+  animation: matrix-bg 20s linear infinite;
+}
+
+@keyframes matrix-bg {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 100%, 0 100%; }
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-extrabold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[rgba(var(--primary-color),1)] to-[rgba(var(--accent-color),1)];
+  }
+  h1 { @apply text-5xl md:text-7xl; }
+  h2 { @apply text-4xl md:text-6xl; }
+  h3 { @apply text-3xl md:text-5xl; }
+  h4 { @apply text-2xl md:text-4xl; }
+  a { 
+    @apply text-[rgba(var(--accent-color),1)] hover:text-[rgba(var(--primary-color),1)] no-underline hover:underline transition-colors duration-300;
+    text-shadow: 0 0 8px rgba(var(--accent-color), 0.5);
+  }
+}
+
+@layer components {
+  .btn {
+    @apply bg-[rgba(var(--primary-color),0.2)] text-[rgba(var(--primary-color),1)] px-6 py-3 rounded-md inline-block hover:bg-[rgba(var(--primary-color),0.3)] transition-all duration-300 font-semibold text-sm uppercase tracking-wider shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[rgba(var(--primary-color),0.5)] focus:ring-opacity-50 border border-[rgba(var(--primary-color),0.5)];
+    text-shadow: 0 0 8px rgba(var(--primary-color), 0.5);
+  }
+  .card {
+    @apply bg-[rgba(var(--background-end-rgb),0.8)] rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-[rgba(var(--primary-color),0.3)] backdrop-blur-sm;
+    box-shadow: 0 4px 6px -1px rgba(var(--primary-color), 0.1), 0 2px 4px -1px rgba(var(--primary-color), 0.06);
+  }
+  input, textarea {
+    @apply bg-[rgba(var(--background-start-rgb),0.8)] border border-[rgba(var(--primary-color),0.3)] rounded-md shadow-sm text-[rgba(var(--foreground-rgb),1)] placeholder-[rgba(var(--foreground-rgb),0.5)];
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-[rgba(var(--primary-color),1)] to-[rgba(var(--accent-color),1)];
+  }
+  .matrix-glow {
+    text-shadow: 0 0 8px rgba(var(--primary-color), 0.7);
+  }
+  .matrix-box {
+    box-shadow: 0 0 15px rgba(var(--primary-color), 0.3);
+    backdrop-filter: blur(5px);
   }
 }
