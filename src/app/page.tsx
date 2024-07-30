@@ -38,7 +38,7 @@ export default function Home() {
 
       <section className="text-center">
         <h2 className="mb-6">Ready to Innovate?</h2>
-        <p className="mb-8 text-xl matrix-glow">Let's collaborate and bring your digital vision to life.</p>
+        <p className="mb-8 text-xl matrix-glow">Let&apos;s collaborate and bring your digital vision to life.</p>
         <Link href="/contact" className="btn">Initiate Contact</Link>
       </section>
     </div>
