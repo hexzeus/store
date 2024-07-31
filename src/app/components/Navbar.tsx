@@ -1,7 +1,7 @@
 'use client';
 
-import Link from "next/link";
-import { useState } from "react";
+import Link from 'next/link';
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
@@ -29,8 +29,8 @@ export default function Navbar() {
                                 key={item.href}
                                 href={item.href}
                                 className={`${item.isButton
-                                        ? "btn"
-                                        : "hover:text-[rgba(var(--primary-color),1)] transition-colors duration-300"
+                                        ? 'btn'
+                                        : 'hover:text-[rgba(var(--primary-color),1)] transition-colors duration-300'
                                     } ${pathname === item.href ? 'text-[rgba(var(--primary-color),1)]' : ''}`}
                             >
                                 {item.label}

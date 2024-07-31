@@ -1,11 +1,11 @@
-// src/lib/printful.ts
+import { NextResponse } from 'next/server';
 
-const PRINTFUL_API_KEY = process.env.NEXT_PUBLIC_PRINTFUL_API_KEY;
-const PRINTFUL_API_URL = 'https://api.printful.com';
-
-export async function fetchPrintfulProducts() {
+export async function GET() {
     try {
-        const response = await fetch(`${PRINTFUL_API_URL}/store/products`, {
+        const PRINTFUL_API_KEY = process.env.PRINTFUL_API_KEY;
+        const PRINTFUL_API_URL = 'https://api.printful.com/store/products';
+
+        const response = await fetch(PRINTFUL_API_URL, {
             headers: {
                 'Authorization': `Bearer ${PRINTFUL_API_KEY}`,
             },
@@ -16,14 +16,9 @@ export async function fetchPrintfulProducts() {
         }
 
         const data = await response.json();
-        return data.result.map((item: any) => ({
-            id: item.id,
-            name: item.name,
-            retail_price: item.retail_price,
-            image: item.thumbnail_url,
-        }));
+        return NextResponse.json(data);
     } catch (error) {
         console.error('Error fetching Printful products:', error);
-        return [];
+        return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
     }
 }
