@@ -4,11 +4,11 @@ export interface CustomProduct {
 }
 
 export const customProducts: CustomProduct[] = [
-    { external_id: "354827863", name: "Clear Case for iPhone®" },
-    { external_id: "354868350", name: "Trucker Cap" },
-    { external_id: "354859374", name: "Holographic stickers" },
-    { external_id: "354867582", name: "Structured Twill Cap" },
-    { external_id: "354875153", name: "Unisex t-shirt" },
-    { external_id: "354908776", name: "Sports bra" },
-    { external_id: "354877821", name: "Oversized faded t-shirt" },
+    { external_id: "66ab221785b4b3", name: "Clear Case for iPhone®" },
+    { external_id: "366ab3b27a50186", name: "Trucker Cap" },
+    { external_id: "66ab33a5b09cb4", name: "Holographic stickers" },
+    { external_id: "66ab3a9d415f62", name: "Structured Twill Cap" },
+    { external_id: "66ab41f63432e2", name: "Unisex t-shirt" },
+    { external_id: "66ab58732e1a68 ", name: "Sports bra" },
+    { external_id: "66ab445dc87f59", name: "Oversized faded t-shirt" },
 ];

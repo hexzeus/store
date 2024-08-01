@@ -3,10 +3,13 @@ import { Suspense } from 'react';
 
 export default function Home() {
   return (
-    <div className="animate-fade-in">
-      <h2 className="text-2xl font-semibold mb-6 text-primary text-shadow">Our Products</h2>
-      <div className="card p-6">
-        <Suspense fallback={<div>Loading products...</div>}>
+    <div className="animate-fade-in space-y-12 py-16">
+      <header className="text-center space-y-4">
+        <h1 className="text-5xl font-bold gold-gradient text-shadow-lg animate-slide-up">Luxury Redefined</h1>
+        <p className="text-xl text-[hsl(var(--muted-foreground))] animate-slide-up" style={{ animationDelay: '0.2s' }}>Discover Our Exclusive Collection</p>
+      </header>
+      <div className="card luxury-border p-8 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+        <Suspense fallback={<div className="text-center py-20 animate-pulse gold-gradient text-2xl">Loading exquisite products...</div>}>
           <ProductList />
         </Suspense>
       </div>

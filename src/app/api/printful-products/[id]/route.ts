@@ -1,5 +1,3 @@
-// src/app/api/printful-products/[id]/route.ts
-
 import { NextResponse } from 'next/server';
 import printfulApi from '@/app/utils/printful';
 
@@ -19,8 +17,11 @@ export async function GET(
         });
 
         return NextResponse.json(response.data.result);
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching product:', error);
+        if (error.response && error.response.status === 404) {
+            return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+        }
         return NextResponse.json({ error: 'Failed to fetch product' }, { status: 500 });
     }
 }
