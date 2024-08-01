@@ -27,7 +27,7 @@ export default function RootLayout({
         </main>
         <footer className="bg-secondary text-secondary-foreground mt-12">
           <div className="container mx-auto px-4 py-6 text-center">
-            <p>&copy; 2024 IvesHub Printful Store. All rights reserved.</p>
+            <p>&copy; 2024 IVES_HUB MERCH. All rights reserved.</p>
           </div>
         </footer>
       </body>

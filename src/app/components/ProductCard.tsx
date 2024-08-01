@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Product {
     id: string;
@@ -13,7 +14,7 @@ interface Product {
 
 export default function ProductCard({ product }: { product: Product }) {
     if (!product) {
-        return null; // or some fallback UI
+        return null;
     }
 
     const lowestPrice = product.variants && product.variants.length > 0
@@ -26,7 +27,17 @@ export default function ProductCard({ product }: { product: Product }) {
     return (
         <Link href={`/product/${product.external_id}`} className="group">
             <div className="card p-4 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
-                <img src={product.thumbnail_url} alt={product.name} className="w-full h-48 object-cover mb-4 rounded" />
+                <div className="relative w-full aspect-square mb-4">
+                    <Image
+                        src={product.thumbnail_url}
+                        alt={product.name}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        className="rounded"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority
+                    />
+                </div>
                 <h2 className="text-xl font-semibold group-hover:text-primary transition duration-300 ease-in-out">{product.name}</h2>
                 {lowestPrice !== null ? (
                     <p className="text-sm text-muted-foreground mt-2">From ${lowestPrice.toFixed(2)}</p>

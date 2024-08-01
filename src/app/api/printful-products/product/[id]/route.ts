@@ -1,12 +1,18 @@
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET(request: NextRequest) {
     try {
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get('id');
         const apiKey = process.env.PRINTFUL_API_KEY;
-        const { id } = params;
 
         if (!apiKey) {
             throw new Error('Printful API key is not set');
+        }
+
+        if (!id) {
+            return NextResponse.json({ error: 'Missing product ID' }, { status: 400 });
         }
 
         const response = await fetch(`https://api.printful.com/store/products/${id}`, {
@@ -18,7 +24,7 @@ export async function GET({ params }: { params: { id: string } }) {
         if (!response.ok) {
             const errorText = await response.text();
             console.error('Printful API error:', errorText);
-            throw new Error(`Printful API responded with status ${response.status}`);
+            return NextResponse.json({ error: `Printful API responded with status ${response.status}` }, { status: 500 });
         }
 
         const data = await response.json();

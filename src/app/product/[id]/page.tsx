@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Product {
     id: string;
@@ -33,7 +34,7 @@ export default function ProductDetail() {
     useEffect(() => {
         async function fetchProduct() {
             try {
-                const response = await fetch(`/api/product/${id}`);
+                const response = await fetch(`/api/printful-products/product/${id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch product');
                 }
@@ -60,8 +61,16 @@ export default function ProductDetail() {
             <Link href="/" className="text-primary hover:text-primary-foreground mb-4 inline-block">&larr; Back to Products</Link>
             <div className="bg-secondary/30 shadow-lg rounded-lg overflow-hidden">
                 <div className="md:flex">
-                    <div className="md:flex-shrink-0">
-                        <img className="h-48 w-full object-cover md:w-48" src={product.thumbnail_url} alt={product.name} />
+                    <div className="md:flex-shrink-0 relative w-full md:w-48 aspect-square">
+                        <Image
+                            src={product.thumbnail_url}
+                            alt={product.name}
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            className="rounded"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            priority
+                        />
                     </div>
                     <div className="p-8">
                         <h2 className="text-2xl font-bold text-foreground">{product.name}</h2>
