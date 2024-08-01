@@ -14,34 +14,34 @@ export default function ProductCard({ product }: { product: Product }) {
 
     return (
         <Link href={`/product/${product.external_id}`} className="group">
-            <div className="card p-6 transition-all duration-300 ease-in-out transform hover:scale-105">
-                <div className="relative w-full aspect-square mb-6 overflow-hidden rounded-lg">
+            <div className="matrix-card p-8 transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-[0_0_30px_rgba(32,255,77,0.3)]">
+                <div className="relative w-full aspect-square mb-8 overflow-hidden rounded-sm matrix-border">
                     {product.thumbnail_url ? (
                         <Image
                             src={product.thumbnail_url}
                             alt={product.name}
                             fill
                             style={{ objectFit: 'cover' }}
-                            className="transition-transform duration-300 group-hover:scale-110"
+                            className="transition-transform duration-500 group-hover:scale-110"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             priority
                         />
                     ) : (
-                        <div className="w-full h-full bg-[hsl(var(--secondary))] flex items-center justify-center">
+                        <div className="w-full h-full bg-[hsl(var(--secondary))] flex items-center justify-center text-xl">
                             No image
                         </div>
                     )}
                 </div>
-                <h2 className="text-2xl font-bold mb-2 group-hover:gold-gradient transition duration-300 ease-in-out">
+                <h2 className="text-2xl font-bold mb-3 group-hover:matrix-gradient transition duration-300 ease-in-out">
                     {product.name}
                 </h2>
                 {lowestPrice !== null ? (
-                    <p className="text-lg text-[hsl(var(--muted-foreground))] mb-2">From ${lowestPrice.toFixed(2)}</p>
+                    <p className="text-xl text-[hsl(var(--muted-foreground))] mb-3">From ${lowestPrice.toFixed(2)}</p>
                 ) : (
-                    <p className="text-lg text-[hsl(var(--muted-foreground))] mb-2">Price on request</p>
+                    <p className="text-xl text-[hsl(var(--muted-foreground))] mb-3">Price on request</p>
                 )}
-                <p className="text-sm text-[hsl(var(--muted-foreground))]">
-                    {product.variants ? `${product.variants} exclusive variants` : 'Exclusive item'}
+                <p className="text-md text-[hsl(var(--muted-foreground))]">
+                    {product.variants ? `${product.variants} digital variants` : 'Exclusive solution'}
                 </p>
             </div>
         </Link>

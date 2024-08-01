@@ -27,47 +27,62 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         loadProduct();
     }, [params.id]);
 
-    if (isLoading) return <div className="text-center py-20 animate-pulse gold-gradient text-3xl">Loading exquisite product...</div>;
-    if (error) return <div className="text-center py-20 text-[hsl(var(--accent))] animate-fade-in text-2xl">Error: {error}</div>;
-    if (!product) return <div className="text-center py-20 animate-fade-in text-[hsl(var(--muted-foreground))] text-2xl">Product not found</div>;
+    if (isLoading) return <div className="text-center py-24 animate-pulse matrix-gradient text-4xl">Decrypting service data...</div>;
+    if (error) return <div className="text-center py-24 text-[hsl(var(--accent))] animate-fade-in text-3xl">Error: {error}</div>;
+    if (!product) return <div className="text-center py-24 animate-fade-in text-[hsl(var(--muted-foreground))] text-3xl">Service not found in the Matrix</div>;
 
     return (
-        <div className="container mx-auto px-4 py-16 animate-fade-in">
-            <Link href="/" className="btn-secondary mb-8 inline-block">← Back to Products</Link>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                <div className="relative aspect-square rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(var(--primary),0.3)]">
+        <div className="container mx-auto px-6 py-20 animate-fade-in">
+            <Link href="/" className="btn-secondary mb-10 inline-block matrix-hover">← Back to Services</Link>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                <div className="relative aspect-square rounded-sm overflow-hidden matrix-border matrix-hover">
                     {product.thumbnail_url ? (
                         <Image
                             src={product.thumbnail_url}
                             alt={product.name}
                             fill
                             style={{ objectFit: 'cover' }}
-                            className="transition-transform duration-300 hover:scale-110"
+                            className="transition-transform duration-500 hover:scale-110"
                             sizes="(max-width: 768px) 100vw, 50vw"
                             priority
                         />
                     ) : (
-                        <div className="w-full h-full bg-[hsl(var(--secondary))] flex items-center justify-center">
+                        <div className="w-full h-full bg-[hsl(var(--secondary))] flex items-center justify-center text-2xl">
                             No image available
                         </div>
                     )}
                 </div>
-                <div className="space-y-8">
-                    <h1 className="text-4xl font-bold gold-gradient text-shadow-glow">{product.name}</h1>
-                    <p className="text-3xl font-semibold text-[hsl(var(--foreground))]">
+                <div className="space-y-10">
+                    <h1 className="text-5xl font-bold matrix-gradient text-glow">{product.name}</h1>
+                    <p className="text-4xl font-semibold text-[hsl(var(--foreground))]">
                         {product.sync_variants && product.sync_variants.length > 0
                             ? `From $${Math.min(...product.sync_variants.map(v => parseFloat(v.retail_price))).toFixed(2)}`
-                            : 'Price on request'}
+                            : 'Custom Pricing'}
                     </p>
-                    <p className="text-xl text-[hsl(var(--muted-foreground))]">{product.variants} exclusive variants available</p>
-                    <button className="btn-primary text-lg">Add to Cart</button>
-                    <div className="card p-6 space-y-4">
-                        <h2 className="text-2xl font-semibold gold-gradient">Product Details</h2>
-                        <p className="text-[hsl(var(--muted-foreground))]">
-                            Indulge in luxury with this exquisite piece. Crafted with the utmost attention to detail,
-                            this product embodies sophistication and style.
+                    <p className="text-2xl text-[hsl(var(--muted-foreground))]">{product.variants} service options available</p>
+                    <button className="btn-primary text-xl matrix-hover">Request Quote</button>
+                    <div className="matrix-card p-8 space-y-6 matrix-hover">
+                        <h2 className="text-3xl font-semibold matrix-gradient">Service Details</h2>
+                        <p className="text-xl text-[hsl(var(--muted-foreground))]">
+                            Elevate your digital presence with our cutting-edge web development solutions.
+                            Crafted with precision and innovation, this service embodies the perfect blend of
+                            functionality and futuristic design.
                         </p>
-                        {/* Add more product details here */}
+                        <ul className="text-xl text-[hsl(var(--muted-foreground))] space-y-2">
+                            <li className="flex items-center space-x-2">
+                                <span className="text-[hsl(var(--primary))]">▶</span>
+                                <span>Responsive and mobile-first design</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                                <span className="text-[hsl(var(--primary))]">▶</span>
+                                <span>SEO optimization for maximum visibility</span>
+                            </li>
+                            <li className="flex items-center space-x-2">
+                                <span className="text-[hsl(var(--primary))]">▶</span>
+                                <span>Integration with cutting-edge technologies</span>
+                            </li>
+                            {/* Add more service features here */}
+                        </ul>
                     </div>
                 </div>
             </div>

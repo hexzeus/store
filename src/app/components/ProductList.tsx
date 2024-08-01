@@ -26,19 +26,19 @@ export default function ProductList() {
         loadProducts();
     }, []);
 
-    if (isLoading) return <div className="text-center py-10 animate-pulse gold-gradient text-2xl">Loading exquisite products...</div>;
-    if (error) return <div className="text-center py-10 text-[hsl(var(--accent))] animate-fade-in text-xl">Error: {error}</div>;
+    if (isLoading) return <div className="text-center py-16 animate-pulse matrix-gradient text-3xl">Loading digital solutions...</div>;
+    if (error) return <div className="text-center py-16 text-[hsl(var(--accent))] animate-fade-in text-2xl">Error: {error}</div>;
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {products.length > 0 ? (
                 products.map((product, index) => (
-                    <div key={product.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                    <div key={product.id} className="animate-slide-up matrix-hover" style={{ animationDelay: `${index * 0.1}s` }}>
                         <ProductCard product={product} />
                     </div>
                 ))
             ) : (
-                <div className="col-span-full text-center py-10 animate-fade-in text-[hsl(var(--muted-foreground))] text-xl">No premium products found.</div>
+                <div className="col-span-full text-center py-16 animate-fade-in text-[hsl(var(--muted-foreground))] text-2xl">No digital solutions found in the Matrix.</div>
             )}
         </div>
     );

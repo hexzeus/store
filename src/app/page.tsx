@@ -3,17 +3,17 @@ import { Suspense } from 'react';
 
 export default function Home() {
   return (
-    <div className="animate-fade-in space-y-12 py-16">
-      <header className="text-center space-y-6">
-        <h1 className="text-5xl font-bold gold-gradient text-shadow-glow animate-slide-up">
-          Luxury Redefined
+    <div className="animate-fade-in space-y-16 py-20">
+      <header className="text-center space-y-8">
+        <h1 className="text-6xl font-bold matrix-gradient text-glow animate-slide-up">
+          Digital Reality Redefined
         </h1>
-        <p className="text-xl text-[hsl(var(--muted-foreground))] animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          Discover Our Exclusive Collection
+        <p className="text-2xl text-[hsl(var(--muted-foreground))] animate-slide-up matrix-text" style={{ animationDelay: '0.2s' }}>
+          Discover Our Cutting-Edge Web Solutions
         </p>
       </header>
-      <div className="card p-8 animate-slide-up" style={{ animationDelay: '0.4s' }}>
-        <Suspense fallback={<div className="text-center py-20 animate-pulse gold-gradient text-2xl">Loading exquisite products...</div>}>
+      <div className="matrix-card p-10 animate-slide-up matrix-hover" style={{ animationDelay: '0.4s' }}>
+        <Suspense fallback={<div className="text-center py-24 animate-pulse matrix-gradient text-3xl">Decrypting services...</div>}>
           <ProductList />
         </Suspense>
       </div>
