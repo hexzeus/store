@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { customProducts } from '@/config/products';
+import { customProducts, CustomProduct } from '@/config/products';
 
 interface PrintfulProduct {
     id: number;
@@ -11,16 +11,14 @@ interface PrintfulProduct {
     is_ignored: boolean;
 }
 
-interface CustomProduct {
-    external_id: string;
-    name: string;
+interface MergedProduct extends PrintfulProduct {
+    custom_name?: string;
 }
 
 export async function GET() {
     try {
         const apiKey = process.env.PRINTFUL_API_KEY;
         const storeId = process.env.PRINTFUL_STORE_ID;
-
         if (!apiKey) {
             throw new Error('Printful API key is not set');
         }
@@ -45,15 +43,18 @@ export async function GET() {
         console.log('Fetched products data:', JSON.stringify(data, null, 2));
 
         if (Array.isArray(data.result)) {
+            // Create a map of custom products for easy lookup
+            const customProductMap = new Map(customProducts.map(p => [p.external_id, p]));
+
             // Merge Printful data with custom product data
-            const mergedProducts = customProducts.map((customProduct: CustomProduct) => {
-                const printfulProduct = data.result.find((p: PrintfulProduct) => p.external_id === customProduct.external_id);
+            const mergedProducts: MergedProduct[] = data.result.map((printfulProduct: PrintfulProduct) => {
+                const customProduct = customProductMap.get(printfulProduct.external_id);
                 return {
-                    ...customProduct,
                     ...printfulProduct,
-                    name: customProduct.name || printfulProduct?.name,
+                    custom_name: customProduct?.name,
                 };
             });
+
             return NextResponse.json(mergedProducts);
         } else {
             console.error('Unexpected data structure:', data);

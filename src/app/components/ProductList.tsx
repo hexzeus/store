@@ -4,6 +4,7 @@ import ProductCard from './ProductCard';
 
 interface Product {
     id: string;
+    external_id: string;  // Add this line
     name: string;
     thumbnail_url: string;
 }
@@ -35,30 +36,17 @@ export default function ProductList() {
         loadProducts();
     }, []);
 
-    if (isLoading) return (
-        <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-        </div>
-    );
-
-    if (error) return (
-        <div className="text-center py-10 text-accent">
-            <p className="text-xl font-semibold">Error</p>
-            <p className="mt-2">{error}</p>
-        </div>
-    );
+    if (isLoading) return <div className="text-center py-10">Loading products...</div>;
+    if (error) return <div className="text-center py-10 text-red-600">Error: {error}</div>;
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {products.length > 0 ? (
                 products.map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))
             ) : (
-                <div className="col-span-full text-center py-10 text-muted-foreground">
-                    <p className="text-xl font-semibold">No products found</p>
-                    <p className="mt-2">Check back later for new arrivals!</p>
-                </div>
+                <div className="col-span-full text-center py-10">No products found.</div>
             )}
         </div>
     );

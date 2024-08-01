@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'IvesHub Printful Store',
+  title: 'IVES_HUB MERCH',
   description: 'Custom products powered by Printful',
 };
 
@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className={`${inter.className} bg-background text-foreground min-h-screen`}>
         <header className="bg-secondary">
           <div className="container mx-auto px-4 py-6">
-            <h1 className="text-3xl font-bold text-primary">IvesHub Printful Store</h1>
+            <h1 className="text-3xl font-bold text-primary">IVES_HUB MERCH</h1>
           </div>
         </header>
         <main className="container mx-auto px-4 py-8">

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET({ params }: { params: { id: string } }) {
     try {
         const apiKey = process.env.PRINTFUL_API_KEY;
         const { id } = params;
