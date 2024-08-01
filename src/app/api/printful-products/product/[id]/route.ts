@@ -16,10 +16,13 @@ export async function GET(request: Request, { params }: { params: { id: string }
         });
 
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Printful API error:', errorText);
             throw new Error(`Printful API responded with status ${response.status}`);
         }
 
         const data = await response.json();
+        console.log('Fetched product data:', data);
         return NextResponse.json(data.result);
     } catch (error) {
         console.error('Error in API route:', error);
