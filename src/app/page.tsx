@@ -3,9 +3,11 @@ import ProductList from './components/ProductList';
 
 export default function Home() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">IvesHub Printful Store</h1>
-      <ProductList />
+    <div className="animate-fade-in">
+      <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-shadow">Our Products</h2>
+      <div className="glass-effect p-6 rounded-lg shadow-lg">
+        <ProductList />
+      </div>
     </div>
   );
 }

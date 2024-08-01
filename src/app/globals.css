@@ -4,17 +4,75 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --foreground-rgb: 33, 33, 33;
+  --background-start-rgb: 240, 240, 245;
   --background-end-rgb: 255, 255, 255;
+  --accent-color: 63, 81, 181;
+  --secondary-color: 255, 152, 0;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-    to bottom,
-    transparent,
+    135deg,
+    rgb(var(--background-start-rgb)),
     rgb(var(--background-end-rgb))
-  )
-  rgb(var(--background-start-rgb));
+  );
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-300;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold mb-2;
+}
+
+h1 {
+  @apply text-4xl;
+}
+
+h2 {
+  @apply text-3xl;
+}
+
+h3 {
+  @apply text-2xl;
+}
+
+a {
+  @apply text-blue-600 hover:text-blue-800 transition-colors duration-300;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.glass-effect {
+  @apply bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
