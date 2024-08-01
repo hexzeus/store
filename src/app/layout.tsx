@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Navbar from '@/app/components/Navbar';
 import Link from 'next/link';
 import './globals.css';
 
@@ -18,28 +19,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="scrollbar-hide">
       <body className={`${inter.className} bg-[hsl(var(--background))] text-[hsl(var(--foreground))] min-h-screen flex flex-col`}>
-        <header className="glass-effect sticky top-0 z-50">
-          <div className="container mx-auto px-6 py-8">
-            <nav className="flex justify-between items-center">
-              <Link href="/" className="text-3xl font-bold gold-gradient text-shadow-lg hover:scale-105 transition-transform duration-300">
-                IVES_HUB MERCH
-              </Link>
-              <ul className="flex space-x-6">
-                <li><Link href="/" className="text-[hsl(var(--foreground))] hover:gold-gradient transition-all duration-300">Home</Link></li>
-                <li><Link href="/products" className="text-[hsl(var(--foreground))] hover:gold-gradient transition-all duration-300">Products</Link></li>
-                <li><Link href="/about" className="text-[hsl(var(--foreground))] hover:gold-gradient transition-all duration-300">About</Link></li>
-                <li><Link href="/contact" className="text-[hsl(var(--foreground))] hover:gold-gradient transition-all duration-300">Contact</Link></li>
-              </ul>
-            </nav>
+        <header className="sticky top-0 z-50 bg-[hsl(var(--background)/0.8)] backdrop-blur-md border-b border-[hsl(var(--accent)/0.2)]">
+          <div className="container mx-auto px-4 py-4">
+            <Navbar />
           </div>
         </header>
 
-        <main className="container mx-auto px-6 py-12 flex-grow">
+        <main className="container mx-auto px-4 py-8 flex-grow">
           {children}
         </main>
 
-        <footer className="glass-effect mt-12">
-          <div className="container mx-auto px-6 py-8">
+        <footer className="bg-[hsl(var(--background)/0.8)] backdrop-blur-md border-t border-[hsl(var(--accent)/0.2)] mt-12">
+          <div className="container mx-auto px-4 py-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
                 <h3 className="text-xl font-semibold gold-gradient mb-4">About Us</h3>
@@ -68,7 +59,7 @@ export default function RootLayout({
                 </div>
               </div>
             </div>
-            <div className="mt-8 pt-8 border-t border-[hsl(var(--secondary))] text-center">
+            <div className="mt-8 pt-8 border-t border-[hsl(var(--accent)/0.2)] text-center">
               <p className="text-[hsl(var(--muted-foreground))]">&copy; 2024 IVES_HUB MERCH. All rights reserved.</p>
             </div>
           </div>

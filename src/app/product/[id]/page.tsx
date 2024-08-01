@@ -13,14 +13,11 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         async function loadProduct() {
             try {
                 const response = await fetch(`/api/printful-products/${params.id}`);
-                if (response.status === 404) {
-                    setError('Product not found');
-                } else if (!response.ok) {
+                if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
-                } else {
-                    const data = await response.json();
-                    setProduct(data);
                 }
+                const data = await response.json();
+                setProduct(data);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
             } finally {
@@ -38,7 +35,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         <div className="container mx-auto px-4 py-16 animate-fade-in">
             <Link href="/" className="btn-secondary mb-8 inline-block">← Back to Products</Link>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                <div className="relative aspect-square rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(var(--gold),0.3)] luxury-border">
+                <div className="relative aspect-square rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(var(--primary),0.3)]">
                     {product.thumbnail_url ? (
                         <Image
                             src={product.thumbnail_url}
@@ -56,15 +53,15 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                     )}
                 </div>
                 <div className="space-y-8">
-                    <h1 className="text-4xl font-bold gold-gradient text-shadow-lg">{product.name}</h1>
+                    <h1 className="text-4xl font-bold gold-gradient text-shadow-glow">{product.name}</h1>
                     <p className="text-3xl font-semibold text-[hsl(var(--foreground))]">
                         {product.sync_variants && product.sync_variants.length > 0
                             ? `From $${Math.min(...product.sync_variants.map(v => parseFloat(v.retail_price))).toFixed(2)}`
                             : 'Price on request'}
                     </p>
                     <p className="text-xl text-[hsl(var(--muted-foreground))]">{product.variants} exclusive variants available</p>
-                    <button className="btn-primary gold-gradient text-lg">Add to Cart</button>
-                    <div className="card luxury-border p-6 space-y-4">
+                    <button className="btn-primary text-lg">Add to Cart</button>
+                    <div className="card p-6 space-y-4">
                         <h2 className="text-2xl font-semibold gold-gradient">Product Details</h2>
                         <p className="text-[hsl(var(--muted-foreground))]">
                             Indulge in luxury with this exquisite piece. Crafted with the utmost attention to detail,

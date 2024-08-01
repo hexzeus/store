@@ -14,7 +14,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
     return (
         <Link href={`/product/${product.external_id}`} className="group">
-            <div className="card luxury-border p-6 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-[0_0_30px_rgba(var(--gold),0.3)]">
+            <div className="card p-6 transition-all duration-300 ease-in-out transform hover:scale-105">
                 <div className="relative w-full aspect-square mb-6 overflow-hidden rounded-lg">
                     {product.thumbnail_url ? (
                         <Image
