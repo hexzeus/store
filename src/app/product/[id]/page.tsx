@@ -3,26 +3,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-
-interface Product {
-    id: string;
-    external_id: string;
-    name: string;
-    thumbnail_url: string;
-    description: string;
-    variants: Array<{
-        id: number;
-        name: string;
-        size: string;
-        color: string;
-        price: string;
-        files: Array<{
-            id: number;
-            type: string;
-            url: string;
-        }>;
-    }>;
-}
+import { Product } from '@/app/types/product';
+import AddToCartButton from '@/app/components/AddToCartButton';
 
 export default function ProductDetail() {
     const { id } = useParams();
@@ -40,7 +22,7 @@ export default function ProductDetail() {
                 }
                 const data = await response.json();
                 setProduct(data);
-                setSelectedVariant(data.variants[0].id);
+                setSelectedVariant(data.variants[0]?.id || null);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
             } finally {
@@ -54,7 +36,7 @@ export default function ProductDetail() {
     if (error) return <div className="text-center py-10 text-accent">Error: {error}</div>;
     if (!product) return <div className="text-center py-10">Product not found</div>;
 
-    const selectedVariantData = product.variants.find(v => v.id === selectedVariant);
+    const selectedVariantData = product.variants?.find(v => v.id === selectedVariant);
 
     return (
         <div className="max-w-4xl mx-auto p-6">
@@ -73,8 +55,8 @@ export default function ProductDetail() {
                         />
                     </div>
                     <div className="p-8">
-                        <h2 className="text-2xl font-bold text-foreground">{product.name}</h2>
-                        <p className="mt-2 text-muted-foreground">{product.description}</p>
+                        <h2 className="text-2xl font-bold text-foreground">{product.custom_name || product.name}</h2>
+                        {product.description && <p className="mt-2 text-muted-foreground">{product.description}</p>}
                         <div className="mt-4">
                             <label htmlFor="variant" className="block text-sm font-medium text-muted-foreground">Select Variant</label>
                             <select
@@ -83,7 +65,7 @@ export default function ProductDetail() {
                                 value={selectedVariant || ''}
                                 onChange={(e) => setSelectedVariant(Number(e.target.value))}
                             >
-                                {product.variants.map((variant) => (
+                                {product.variants?.map((variant) => (
                                     <option key={variant.id} value={variant.id}>
                                         {variant.name} - ${variant.price}
                                     </option>
@@ -97,9 +79,7 @@ export default function ProductDetail() {
                                 <p className="text-sm text-muted-foreground">Color: {selectedVariantData.color}</p>
                             </div>
                         )}
-                        <button className="mt-6 px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 transition duration-300 ease-in-out">
-                            Add to Cart
-                        </button>
+                        <AddToCartButton productId={product.id} variantId={selectedVariant} />
                     </div>
                 </div>
             </div>

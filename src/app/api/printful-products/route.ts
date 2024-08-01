@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { customProducts, CustomProduct } from '@/config/products';
+import { customProducts } from '@/app/config/products';
 
 interface PrintfulProduct {
     id: number;

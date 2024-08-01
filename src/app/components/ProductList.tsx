@@ -1,21 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
-
-interface Product {
-    id: string;
-    external_id: string;  // Add this line
-    name: string;
-    thumbnail_url: string;
-}
-
-async function fetchPrintfulProducts() {
-    const response = await fetch('/api/printful-products');
-    if (!response.ok) {
-        throw new Error(`Failed to fetch products: ${response.status}`);
-    }
-    return response.json();
-}
+import { Product } from '@/app/types/product';
 
 export default function ProductList() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -25,8 +11,12 @@ export default function ProductList() {
     useEffect(() => {
         async function loadProducts() {
             try {
-                const fetchedProducts = await fetchPrintfulProducts();
-                setProducts(fetchedProducts);
+                const response = await fetch('/api/printful-products');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setProducts(data);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
             } finally {
