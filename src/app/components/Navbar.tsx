@@ -8,7 +8,7 @@ export default function Navbar() {
     return (
         <nav className="flex flex-wrap items-center justify-between py-4 sm:py-5 md:py-6">
             <Link href="/" className="text-2xl sm:text-3xl md:text-4xl font-bold matrix-gradient text-glow hover:scale-105 transition-transform duration-300 font-orbitron">
-                IVES HUB MERCH
+                IVES_HUB MERCH
             </Link>
             <button
                 className="lg:hidden text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] transition-colors duration-300"
