@@ -26,11 +26,11 @@ export default function ProductList() {
         loadProducts();
     }, []);
 
-    if (isLoading) return <div className="text-center py-16 animate-pulse matrix-gradient text-3xl">Loading digital solutions...</div>;
-    if (error) return <div className="text-center py-16 text-[hsl(var(--accent))] animate-fade-in text-2xl">Error: {error}</div>;
+    if (isLoading) return <div className="text-center py-8 sm:py-12 md:py-16 animate-pulse matrix-gradient text-xl sm:text-2xl md:text-3xl">Loading digital solutions...</div>;
+    if (error) return <div className="text-center py-8 sm:py-12 md:py-16 text-[hsl(var(--accent))] animate-fade-in text-lg sm:text-xl md:text-2xl">Error: {error}</div>;
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
             {products.length > 0 ? (
                 products.map((product, index) => (
                     <div key={product.id} className="animate-slide-up matrix-hover" style={{ animationDelay: `${index * 0.1}s` }}>
@@ -38,7 +38,7 @@ export default function ProductList() {
                     </div>
                 ))
             ) : (
-                <div className="col-span-full text-center py-16 animate-fade-in text-[hsl(var(--muted-foreground))] text-2xl">No digital solutions found in the Matrix.</div>
+                <div className="col-span-full text-center py-8 sm:py-12 md:py-16 animate-fade-in text-[hsl(var(--muted-foreground))] text-lg sm:text-xl md:text-2xl">No digital solutions found in the Matrix.</div>
             )}
         </div>
     );

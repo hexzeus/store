@@ -8,7 +8,7 @@ export default function MobileMenu() {
             menu?.classList.toggle('hidden');
             menu?.classList.toggle('matrix-hover');
         };
-        const button = document.querySelector('button');
+        const button = document.querySelector('button[aria-label="Toggle menu"]');
         button?.addEventListener('click', toggleMenu);
         return () => button?.removeEventListener('click', toggleMenu);
     }, []);
