@@ -1,15 +1,20 @@
+// src/app/types/product.ts
+
 export interface Product {
-    id: string;
+    id: number;
     external_id: string;
     name: string;
-    custom_name?: string;
+    variants: number;
+    synced: number;
     thumbnail_url: string;
-    description?: string; // Add this line
-    variants?: Array<{
-        id: number;
-        name: string;
-        size: string;
-        color: string;
-        price: string;
-    }>;
+    is_ignored: boolean;
+    sync_variants?: SyncVariant[];
+}
+
+export interface SyncVariant {
+    id: number;
+    sync_product_id: number;
+    name: string;
+    retail_price: string;
+    // Add other fields as needed
 }

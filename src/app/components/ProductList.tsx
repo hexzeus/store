@@ -1,3 +1,5 @@
+// src/app/components/ProductList.tsx
+
 'use client';
 import { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';

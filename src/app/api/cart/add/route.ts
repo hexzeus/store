@@ -1,15 +1,13 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import printfulApi from '@/app/utils/printful';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
     try {
-        const { productId, variantId } = await request.json();
+        const body = await request.json();
+        const { sync_variant_id, quantity } = body;
 
-        // Here you would typically add the item to the cart in your database or state management system
-        // For this example, we'll just log the action and return a success response
-
-        console.log(`Added product ${productId} with variant ${variantId} to cart`);
-
+        // Here you would typically add the item to your cart system
+        // For this example, we'll just return a success response
         return NextResponse.json({ success: true, message: 'Item added to cart' });
     } catch (error) {
         console.error('Error adding item to cart:', error);

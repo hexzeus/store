@@ -1,10 +1,9 @@
 'use client';
 import { useState } from 'react';
 
-
 interface AddToCartButtonProps {
     productId: string;
-    variantId: number | null;
+    variantId: number | undefined;
 }
 
 export default function AddToCartButton({ productId, variantId }: AddToCartButtonProps) {
@@ -20,7 +19,7 @@ export default function AddToCartButton({ productId, variantId }: AddToCartButto
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ productId, variantId }),
+                body: JSON.stringify({ sync_variant_id: variantId, quantity: 1 }),
             });
 
             if (!response.ok) {
