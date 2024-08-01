@@ -1,6 +1,6 @@
 'use client';
-
 import { useState, useEffect } from 'react';
+import ProductCard from './ProductCard';
 
 interface Product {
     id: string;
@@ -9,20 +9,11 @@ interface Product {
 }
 
 async function fetchPrintfulProducts() {
-    try {
-        const response = await fetch('/api/printful-products');
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('API response not OK:', response.status, errorText);
-            throw new Error(`Failed to fetch products: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log('Fetched data:', data);
-        return data;
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        throw error;
+    const response = await fetch('/api/printful-products');
+    if (!response.ok) {
+        throw new Error(`Failed to fetch products: ${response.status}`);
     }
+    return response.json();
 }
 
 export default function ProductList() {
@@ -32,14 +23,9 @@ export default function ProductList() {
 
     useEffect(() => {
         async function loadProducts() {
-            setIsLoading(true);
             try {
                 const fetchedProducts = await fetchPrintfulProducts();
-                if (Array.isArray(fetchedProducts)) {
-                    setProducts(fetchedProducts);
-                } else {
-                    throw new Error('Fetched data is not an array');
-                }
+                setProducts(fetchedProducts);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An error occurred');
             } finally {
@@ -49,20 +35,17 @@ export default function ProductList() {
         loadProducts();
     }, []);
 
-    if (isLoading) return <div>Loading products...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (isLoading) return <div className="text-center py-10">Loading products...</div>;
+    if (error) return <div className="text-center py-10 text-red-600">Error: {error}</div>;
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {products.length > 0 ? (
                 products.map((product) => (
-                    <div key={product.id} className="border p-4 rounded-lg">
-                        <img src={product.thumbnail_url} alt={product.name} className="w-full h-48 object-cover mb-4" />
-                        <h2 className="text-xl font-semibold">{product.name}</h2>
-                    </div>
+                    <ProductCard key={product.id} product={product} />
                 ))
             ) : (
-                <div>No products found.</div>
+                <div className="col-span-full text-center py-10">No products found.</div>
             )}
         </div>
     );
