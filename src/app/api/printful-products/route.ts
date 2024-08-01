@@ -1,4 +1,20 @@
 import { NextResponse } from 'next/server';
+import { customProducts } from '@/config/products';
+
+interface PrintfulProduct {
+    id: number;
+    external_id: string;
+    name: string;
+    variants: number;
+    synced: number;
+    thumbnail_url: string;
+    is_ignored: boolean;
+}
+
+interface CustomProduct {
+    external_id: string;
+    name: string;
+}
 
 export async function GET() {
     try {
@@ -13,7 +29,7 @@ export async function GET() {
         }
 
         console.log('Fetching products from Printful...');
-        const response = await fetch(`https://api.printful.com/store/products?store_id=${storeId}`, {
+        const response = await fetch(`https://api.printful.com/store/products?status=all&limit=100&store_id=${storeId}`, {
             headers: {
                 'Authorization': `Bearer ${apiKey}`,
             },
@@ -29,7 +45,16 @@ export async function GET() {
         console.log('Fetched products data:', JSON.stringify(data, null, 2));
 
         if (Array.isArray(data.result)) {
-            return NextResponse.json(data.result);
+            // Merge Printful data with custom product data
+            const mergedProducts = customProducts.map((customProduct: CustomProduct) => {
+                const printfulProduct = data.result.find((p: PrintfulProduct) => p.external_id === customProduct.external_id);
+                return {
+                    ...customProduct,
+                    ...printfulProduct,
+                    name: customProduct.name || printfulProduct?.name,
+                };
+            });
+            return NextResponse.json(mergedProducts);
         } else {
             console.error('Unexpected data structure:', data);
             throw new Error('Unexpected data structure from Printful API');
