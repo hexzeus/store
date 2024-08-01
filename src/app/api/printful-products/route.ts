@@ -1,36 +1,41 @@
 import { NextResponse } from 'next/server';
-import axios from 'axios';
 
 export async function GET() {
     try {
-        console.log('API route hit');
-        const PRINTFUL_API_KEY = process.env.PRINTFUL_API_KEY;
-        console.log('Printful API Key:', PRINTFUL_API_KEY);  // Log the API key
-        const PRINTFUL_API_URL = 'https://api.printful.com/store/products';
+        const apiKey = process.env.PRINTFUL_API_KEY;
+        const storeId = process.env.PRINTFUL_STORE_ID;
 
-        if (!PRINTFUL_API_KEY) {
-            console.error('Printful API key is missing');
-            return NextResponse.json({ error: 'Printful API key is missing' }, { status: 500 });
+        if (!apiKey) {
+            throw new Error('Printful API key is not set');
+        }
+        if (!storeId) {
+            throw new Error('Printful Store ID is not set');
         }
 
-        console.log('Fetching products from Printful');
-        const response = await axios.get(PRINTFUL_API_URL, {
+        console.log('Fetching from Printful API...');
+        const response = await fetch(`https://api.printful.com/store/products?store_id=${storeId}`, {
             headers: {
-                'Authorization': `Bearer ${PRINTFUL_API_KEY}`,
+                'Authorization': `Bearer ${apiKey}`,
             },
         });
 
-        console.log('Printful response status:', response.status);
-        if (response.status !== 200) {
-            console.error('Failed to fetch products:', response.statusText);
-            return NextResponse.json({ error: 'Failed to fetch products' }, { status: response.status });
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Printful API response not OK:', response.status, errorText);
+            throw new Error(`Printful API responded with status ${response.status}`);
         }
 
-        const data = response.data;
-        console.log('Fetched products:', data);
-        return NextResponse.json(data);
+        const data = await response.json();
+        console.log('Printful API response:', data);
+
+        if (Array.isArray(data.result)) {
+            return NextResponse.json(data.result);
+        } else {
+            console.error('Unexpected data structure from Printful API:', data);
+            throw new Error('Unexpected data structure from Printful API');
+        }
     } catch (error) {
-        console.error('Error fetching Printful products:', error);
+        console.error('Error in API route:', error);
         return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
     }
 }
