@@ -1,17 +1,23 @@
+// src/app/components/AddToCartButton.tsx
+
 'use client';
 import { useState } from 'react';
+import { useCart } from '@/app/hooks/useCart';
 
 interface AddToCartButtonProps {
-    productId: number;  // Changed from string to number
+    productId: number;
     variantId: number | undefined;
 }
 
 export default function AddToCartButton({ productId, variantId }: AddToCartButtonProps) {
     const [isAdding, setIsAdding] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const { addToCart } = useCart();
 
     const handleAddToCart = async () => {
         if (!variantId) return;
         setIsAdding(true);
+        setError(null);
         try {
             const response = await fetch('/api/cart/add', {
                 method: 'POST',
@@ -21,26 +27,31 @@ export default function AddToCartButton({ productId, variantId }: AddToCartButto
                 body: JSON.stringify({ sync_variant_id: variantId, quantity: 1 }),
             });
             if (!response.ok) {
-                throw new Error('Failed to add to cart');
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Failed to add to cart');
             }
             const data = await response.json();
             console.log(data.message);
-            // TODO: Update UI to show item added to cart
-        } catch (error) {
+            addToCart(data.item);
+            // TODO: Show success message to user
+        } catch (error: any) {
             console.error('Error adding to cart:', error);
-            // TODO: Show error message to user
+            setError(error.message || 'An error occurred while adding to cart');
         } finally {
             setIsAdding(false);
         }
     };
 
     return (
-        <button
-            onClick={handleAddToCart}
-            disabled={isAdding || !variantId}
-            className="btn-primary"
-        >
-            {isAdding ? 'Adding...' : 'Add to Cart'}
-        </button>
+        <div>
+            <button
+                onClick={handleAddToCart}
+                disabled={isAdding || !variantId}
+                className="btn-primary text-xl matrix-hover"
+            >
+                {isAdding ? 'Adding...' : 'Add to Cart'}
+            </button>
+            {error && <p className="text-red-500 mt-2">{error}</p>}
+        </div>
     );
 }

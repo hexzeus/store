@@ -1,9 +1,18 @@
+// src/app/components/Navbar.tsx
+
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useCart } from '@/app/hooks/useCart';
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [cartItemsCount, setCartItemsCount] = useState(0);
+    const { cart } = useCart();
+
+    useEffect(() => {
+        setCartItemsCount(cart.reduce((sum, item) => sum + item.quantity, 0));
+    }, [cart]);
 
     return (
         <nav className="flex flex-wrap items-center justify-between py-4 sm:py-5 md:py-6">
@@ -21,10 +30,20 @@ export default function Navbar() {
             </button>
             <div className={`${isMenuOpen ? 'block' : 'hidden'} w-full lg:flex lg:w-auto lg:items-center mt-4 lg:mt-0`}>
                 <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 xl:space-x-8">
-                    <li><Link href="/" className="text-base sm:text-lg md:text-xl text-[hsl(var(--foreground))] hover:matrix-gradient hover:text-glow transition-all duration-300">Home</Link></li>
-                    <li><Link href="/products" className="text-base sm:text-lg md:text-xl text-[hsl(var(--foreground))] hover:matrix-gradient hover:text-glow transition-all duration-300">Products</Link></li>
-                    <li><Link href="/about" className="text-base sm:text-lg md:text-xl text-[hsl(var(--foreground))] hover:matrix-gradient hover:text-glow transition-all duration-300">About</Link></li>
-                    <li><Link href="/contact" className="text-base sm:text-lg md:text-xl text-[hsl(var(--foreground))] hover:matrix-gradient hover:text-glow transition-all duration-300">Contact</Link></li>
+                    <li><Link href="/" className="nav-link">Home</Link></li>
+                    <li><Link href="/products" className="nav-link">Products</Link></li>
+                    <li><Link href="/about" className="nav-link">About</Link></li>
+                    <li><Link href="/contact" className="nav-link">Contact</Link></li>
+                    <li>
+                        <Link href="/cart" className="nav-link relative">
+                            Cart
+                            {cartItemsCount > 0 && (
+                                <span className="absolute -top-2 -right-2 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                                    {cartItemsCount}
+                                </span>
+                            )}
+                        </Link>
+                    </li>
                 </ul>
             </div>
         </nav>

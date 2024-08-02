@@ -1,3 +1,5 @@
+// src/app/utils/printful.ts
+
 import axios from 'axios';
 
 const printfulApi = axios.create({
