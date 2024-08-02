@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 interface AddToCartButtonProps {
-    productId: string;
+    productId: number;  // Changed from string to number
     variantId: number | undefined;
 }
 
@@ -11,7 +11,6 @@ export default function AddToCartButton({ productId, variantId }: AddToCartButto
 
     const handleAddToCart = async () => {
         if (!variantId) return;
-
         setIsAdding(true);
         try {
             const response = await fetch('/api/cart/add', {
@@ -21,16 +20,15 @@ export default function AddToCartButton({ productId, variantId }: AddToCartButto
                 },
                 body: JSON.stringify({ sync_variant_id: variantId, quantity: 1 }),
             });
-
             if (!response.ok) {
                 throw new Error('Failed to add to cart');
             }
-
-            // You can add a success message or update the UI here
-            console.log('Added to cart successfully');
+            const data = await response.json();
+            console.log(data.message);
+            // TODO: Update UI to show item added to cart
         } catch (error) {
             console.error('Error adding to cart:', error);
-            // You can show an error message to the user here
+            // TODO: Show error message to user
         } finally {
             setIsAdding(false);
         }
@@ -40,7 +38,7 @@ export default function AddToCartButton({ productId, variantId }: AddToCartButto
         <button
             onClick={handleAddToCart}
             disabled={isAdding || !variantId}
-            className="mt-6 px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 transition duration-300 ease-in-out disabled:opacity-50"
+            className="btn-primary"
         >
             {isAdding ? 'Adding...' : 'Add to Cart'}
         </button>

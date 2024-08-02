@@ -1,6 +1,7 @@
-'use client';
-import { useState, useEffect } from 'react';
-import ProductCard from './ProductCard';
+'use client';  // Add this at the top of the file
+
+import { useEffect, useState } from 'react';
+import ProductCard from '@/app/components/ProductCard';
 import { Product } from '@/app/types/product';
 
 export default function ProductList() {
@@ -26,20 +27,15 @@ export default function ProductList() {
         loadProducts();
     }, []);
 
-    if (isLoading) return <div className="text-center py-8 sm:py-12 md:py-16 animate-pulse matrix-gradient text-xl sm:text-2xl md:text-3xl">Loading digital solutions...</div>;
-    if (error) return <div className="text-center py-8 sm:py-12 md:py-16 text-[hsl(var(--accent))] animate-fade-in text-lg sm:text-xl md:text-2xl">Error: {error}</div>;
+    if (isLoading) return <div className="text-center py-24 animate-pulse matrix-gradient text-4xl">Loading products from the Matrix...</div>;
+    if (error) return <div className="text-center py-24 text-[hsl(var(--accent))] animate-fade-in text-3xl">Error: {error}</div>;
+    if (products.length === 0) return <div className="text-center py-24 animate-fade-in text-[hsl(var(--muted-foreground))] text-3xl">No products found in the Matrix</div>;
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
-            {products.length > 0 ? (
-                products.map((product, index) => (
-                    <div key={product.id} className="animate-slide-up matrix-hover" style={{ animationDelay: `${index * 0.1}s` }}>
-                        <ProductCard product={product} />
-                    </div>
-                ))
-            ) : (
-                <div className="col-span-full text-center py-8 sm:py-12 md:py-16 animate-fade-in text-[hsl(var(--muted-foreground))] text-lg sm:text-xl md:text-2xl">No digital solutions found in the Matrix.</div>
-            )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+            ))}
         </div>
     );
 }

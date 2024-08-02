@@ -5,9 +5,9 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         const { sync_variant_id, quantity } = body;
-
         // Here you would typically add the item to your cart system
         // For this example, we'll just return a success response
+        // TODO: Implement actual cart logic (e.g., storing in a database or session)
         return NextResponse.json({ success: true, message: 'Item added to cart' });
     } catch (error) {
         console.error('Error adding item to cart:', error);
