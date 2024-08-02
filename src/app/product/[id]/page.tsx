@@ -48,7 +48,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                     {productImage ? (
                         <Image
                             src={productImage}
-                            alt={product.name}
+                            alt={`Product image of ${product.name}`}
                             width={500}
                             height={500}
                             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
