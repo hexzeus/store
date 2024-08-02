@@ -61,6 +61,69 @@
            focus:outline-none focus:border-[hsl(var(--primary))] focus:shadow-[0_0_15px_rgba(32,255,77,0.5)]
            transition-all duration-300 ease-in-out placeholder:text-[hsl(var(--muted-foreground)/0.7)];
   }
+
+  .cyber-edge-top {
+    @apply relative;
+  }
+  .cyber-edge-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
+    box-shadow: 0 0 15px hsl(var(--primary));
+  }
+
+  .cyber-edge-bottom {
+    @apply relative;
+  }
+  .cyber-edge-bottom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, hsl(var(--secondary)), transparent);
+    box-shadow: 0 0 15px hsl(var(--secondary));
+  }
+
+  .cyber-button {
+    @apply px-4 py-2 bg-[hsl(var(--background))] text-[hsl(var(--foreground))] border border-[hsl(var(--primary))] rounded-sm
+           relative overflow-hidden transition-all duration-300 ease-in-out
+           hover:text-[hsl(var(--primary))] hover:border-[hsl(var(--secondary))]
+           before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full
+           before:bg-[hsl(var(--primary))] before:opacity-0 before:transition-opacity before:duration-300
+           hover:before:opacity-20;
+  }
+
+  .cyber-button-mobile {
+    @apply cyber-button w-full text-center;
+  }
+
+  .cyber-glow {
+    @apply shadow-[0_0_10px_hsl(var(--primary))];
+  }
+
+  .cyber-glow-intense {
+    @apply shadow-[0_0_20px_hsl(var(--primary))];
+  }
+
+  .cyber-casing {
+    @apply border-2 border-[hsl(var(--primary))] rounded-sm;
+  }
+
+  .cyber-pulse {
+    animation: cyber-pulse 2s infinite;
+  }
+
+  @keyframes cyber-pulse {
+    0% { box-shadow: 0 0 0 0 hsla(var(--primary), 0.7); }
+    70% { box-shadow: 0 0 0 10px hsla(var(--primary), 0); }
+    100% { box-shadow: 0 0 0 0 hsla(var(--primary), 0); }
+  }
 }
 
 @layer utilities {
@@ -86,6 +149,21 @@
   .matrix-hover:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(32, 255, 77, 0.2);
+  }
+
+  .cyber-glitch-text {
+    position: relative;
+    animation: cyber-glitch 3s infinite;
+  }
+
+  @keyframes cyber-glitch {
+    0% { text-shadow: 0.05em 0 0 hsl(var(--primary)), -0.05em -0.025em 0 hsl(var(--secondary)); }
+    14% { text-shadow: 0.05em 0 0 hsl(var(--primary)), -0.05em -0.025em 0 hsl(var(--secondary)); }
+    15% { text-shadow: -0.05em -0.025em 0 hsl(var(--primary)), 0.025em 0.025em 0 hsl(var(--secondary)); }
+    49% { text-shadow: -0.05em -0.025em 0 hsl(var(--primary)), 0.025em 0.025em 0 hsl(var(--secondary)); }
+    50% { text-shadow: 0.025em 0.05em 0 hsl(var(--primary)), 0.05em 0 0 hsl(var(--secondary)); }
+    99% { text-shadow: 0.025em 0.05em 0 hsl(var(--primary)), 0.05em 0 0 hsl(var(--secondary)); }
+    100% { text-shadow: -0.025em 0 0 hsl(var(--primary)), -0.025em -0.025em 0 hsl(var(--secondary)); }
   }
 }
 

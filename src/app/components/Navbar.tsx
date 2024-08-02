@@ -31,9 +31,7 @@ export default function Navbar() {
             <div className={`${isMenuOpen ? 'block' : 'hidden'} w-full lg:flex lg:w-auto lg:items-center mt-4 lg:mt-0`}>
                 <ul className="flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:space-x-4 xl:space-x-8">
                     <li><Link href="/" className="nav-link">Home</Link></li>
-                    <li><Link href="/products" className="nav-link">Products</Link></li>
-                    <li><Link href="/about" className="nav-link">About</Link></li>
-                    <li><Link href="/contact" className="nav-link">Contact</Link></li>
+                    <li><Link href="/" className="nav-link">Products</Link></li>
                     <li>
                         <Link href="/cart" className="nav-link relative">
                             Cart

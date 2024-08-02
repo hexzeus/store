@@ -1,12 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Product } from '@/app/types/product';
+import { Product, SyncVariant } from '@/app/types/product';
 
 export default function ProductCard({ product }: { product: Product }) {
-    const lowestPrice = product.sync_variants && product.sync_variants.length > 0
-        ? Math.min(...product.sync_variants.map(v => parseFloat(v.retail_price)))
-        : null;
-
     return (
         <Link href={`/product/${product.id}`} className="group block">
             <div className="matrix-card p-4 sm:p-6 md:p-8 transition-all duration-500 ease-in-out transform hover:scale-105 hover:shadow-[0_0_30px_rgba(32,255,77,0.3)] h-full flex flex-col">
@@ -32,13 +28,17 @@ export default function ProductCard({ product }: { product: Product }) {
                         {product.name}
                     </h2>
                     <div>
-                        {lowestPrice !== null ? (
-                            <p className="text-sm sm:text-base md:text-lg text-[hsl(var(--muted-foreground))] mb-2 sm:mb-3">
-                                From ${lowestPrice.toFixed(2)}
-                            </p>
+                        {product.sync_variants && product.sync_variants.length > 0 ? (
+                            <div>
+                                {product.sync_variants.map((variant: SyncVariant) => (
+                                    <div key={variant.id} className="text-sm sm:text-base md:text-lg text-[hsl(var(--muted-foreground))] mb-2 sm:mb-3">
+                                        {variant.name} - ${variant.retail_price}
+                                    </div>
+                                ))}
+                            </div>
                         ) : (
                             <p className="text-sm sm:text-base md:text-lg text-[hsl(var(--muted-foreground))] mb-2 sm:mb-3">
-                                Price on request
+                                Custom Pricing
                             </p>
                         )}
                         <p className="text-xs sm:text-sm md:text-base text-[hsl(var(--muted-foreground))]">

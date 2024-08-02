@@ -1,4 +1,37 @@
-// src/app/types/product.ts
+// product.types.ts
+export interface PrintfulFile {
+    id: number;
+    type: string;
+    hash: string;
+    url: string;
+    filename: string;
+    mime_type: string;
+    size: number;
+    width: number;
+    height: number;
+    dpi: number | null;
+    status: string;
+    created: number;
+    thumbnail_url: string;
+    preview_url: string;
+    visible: boolean;
+}
+
+export interface SyncVariant {
+    id: number;
+    product_id: number;
+    name: string;
+    size: string;
+    color: string;
+    color_code: string;
+    color_code2: string | null;
+    image: string;
+    price: string;
+    in_stock: boolean;
+    availability_status: string;
+    retail_price: string;
+    files: PrintfulFile[];
+}
 
 export interface Product {
     id: number;
@@ -8,6 +41,8 @@ export interface Product {
     synced: number;
     thumbnail_url: string;
     is_ignored: boolean;
+    description: string;
+    currency: string;
     sync_product: {
         id: number;
         external_id: string;
@@ -17,38 +52,5 @@ export interface Product {
         thumbnail_url: string;
         is_ignored: boolean;
     };
-    sync_variants: Array<{
-        id: number;
-        external_id: string;
-        sync_product_id: number;
-        name: string;
-        synced: boolean;
-        variant_id: number;
-        retail_price: string;
-        sku: string;
-        currency: string;
-        product: {
-            variant_id: number;
-            product_id: number;
-            image: string;
-            name: string;
-        };
-        files: Array<{
-            id: number;
-            type: string;
-            hash: string;
-            url: string;
-            filename: string;
-            mime_type: string;
-            size: number;
-            width: number;
-            height: number;
-            dpi: number | null;
-            status: string;
-            created: number;
-            thumbnail_url: string;
-            preview_url: string;
-            visible: boolean;
-        }>;
-    }>;
+    sync_variants: SyncVariant[];
 }
