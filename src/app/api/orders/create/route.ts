@@ -1,12 +1,15 @@
-// src/app/api/orders/create/route.ts
-
-import { NextResponse } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 import printfulApi from '@/app/utils/printful';
 
-export async function POST(request: Request) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method !== 'POST') {
+        res.setHeader('Allow', 'POST');
+        res.status(405).end('Method Not Allowed');
+        return;
+    }
+
     try {
-        const body = await request.json();
-        const { recipient, items } = body;
+        const { recipient, items } = req.body;
 
         const order = {
             recipient,
@@ -19,9 +22,9 @@ export async function POST(request: Request) {
 
         const response = await printfulApi.post('/orders', order);
 
-        return NextResponse.json({ success: true, orderId: response.data.result.id });
+        res.status(200).json({ orderId: response.data.result.id });
     } catch (error) {
         console.error('Error creating order:', error);
-        return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }

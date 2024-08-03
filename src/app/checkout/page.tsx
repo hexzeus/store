@@ -1,14 +1,23 @@
-// src/app/checkout/page.tsx
-
 'use client';
 import { useState } from 'react';
 import { useCart } from '@/app/hooks/useCart';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { loadStripe } from '@stripe/stripe-js';
+import {
+    Elements,
+    CardElement,
+    useStripe,
+    useElements,
+} from '@stripe/react-stripe-js';
 
-export default function CheckoutPage() {
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || '');
+
+function CheckoutForm() {
     const { cart, clearCart } = useCart();
     const router = useRouter();
+    const stripe = useStripe();
+    const elements = useElements();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -33,7 +42,58 @@ export default function CheckoutPage() {
         setError(null);
 
         try {
-            const response = await fetch('/api/orders/create', {
+            // Process payment with Stripe
+            const response = await fetch('/api/stripe/create-payment-intent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    amount: total * 100, // Amount in cents
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to create payment intent');
+            }
+
+            const { clientSecret } = await response.json();
+
+            if (!stripe || !elements) {
+                throw new Error('Stripe has not loaded yet');
+            }
+
+            const cardElement = elements.getElement(CardElement);
+            if (!cardElement) {
+                throw new Error('Card Element not found');
+            }
+
+            const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: cardElement,
+                    billing_details: {
+                        name: formData.name,
+                        email: formData.email,
+                        address: {
+                            line1: formData.address,
+                            city: formData.city,
+                            country: formData.country,
+                            postal_code: formData.zipCode,
+                        },
+                    },
+                },
+            });
+
+            if (paymentResult.error) {
+                throw new Error(paymentResult.error.message || 'Payment failed');
+            }
+
+            if (paymentResult.paymentIntent?.status !== 'succeeded') {
+                throw new Error('Payment not successful');
+            }
+
+            // Create order in Printful
+            const orderResponse = await fetch('/api/orders/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,11 +111,11 @@ export default function CheckoutPage() {
                 }),
             });
 
-            if (!response.ok) {
+            if (!orderResponse.ok) {
                 throw new Error('Failed to create order');
             }
 
-            const { orderId } = await response.json();
+            const { orderId } = await orderResponse.json();
             console.log('Order created:', orderId);
 
             clearCart();
@@ -149,6 +209,9 @@ export default function CheckoutPage() {
                         required
                         className="w-full p-2 border border-[hsl(var(--border))] rounded"
                     />
+                    <div className="border border-[hsl(var(--border))] rounded p-4">
+                        <CardElement options={{ style: { base: { fontSize: '16px' } } }} />
+                    </div>
                     {error && <p className="text-red-500">{error}</p>}
                     <button type="submit" className="btn-primary w-full" disabled={isSubmitting}>
                         {isSubmitting ? 'Placing Order...' : 'Place Order'}
@@ -158,3 +221,11 @@ export default function CheckoutPage() {
         </div>
     );
 }
+
+const CheckoutPageWrapper = () => (
+    <Elements stripe={stripePromise}>
+        <CheckoutForm />
+    </Elements>
+);
+
+export default CheckoutPageWrapper;
