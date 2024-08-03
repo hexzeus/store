@@ -1,7 +1,8 @@
 'use client';
+
 import { useEffect, useState } from 'react';
-import { Product } from '@/app/types/product';
 import ProductCard from '@/app/components/ProductCard';
+import { Product } from '@/app/types/product';
 
 export default function ProductPage() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -31,9 +32,9 @@ export default function ProductPage() {
     if (products.length === 0) return <div className="text-center py-24 animate-fade-in text-[hsl(var(--muted-foreground))] text-3xl">No products found in the Matrix</div>;
 
     return (
-        <div className="container mx-auto px-6 py-20 animate-fade-in">
-            <h1 className="text-4xl font-bold matrix-gradient text-glow mb-10">Our Products</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-20 animate-fade-in">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold matrix-gradient text-glow mb-6 sm:mb-10">Our Products</h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))}
