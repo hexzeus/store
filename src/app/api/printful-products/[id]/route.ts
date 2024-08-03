@@ -1,17 +1,22 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import printfulApi from '@/app/utils/printful';
 
-export async function GET(
-    { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest) {
     try {
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get('id');
+
         const storeId = process.env.PRINTFUL_STORE_ID;
 
         if (!storeId) {
             throw new Error('PRINTFUL_STORE_ID is not set in environment variables');
         }
 
-        const response = await printfulApi.get(`/store/products/${params.id}`, {
+        if (!id) {
+            throw new Error('Product ID is missing');
+        }
+
+        const response = await printfulApi.get(`/store/products/${id}`, {
             params: { store_id: storeId }
         });
 
