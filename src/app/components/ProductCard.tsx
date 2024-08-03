@@ -15,7 +15,8 @@ export default function ProductCard({ product }: { product: Product }) {
                             style={{ objectFit: 'cover' }}
                             className="transition-transform duration-500 group-hover:scale-110"
                             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-                            priority
+                            priority={false}
+                            loading="lazy"
                         />
                     ) : (
                         <div className="w-full h-full bg-[hsl(var(--secondary))] flex items-center justify-center text-base sm:text-lg lg:text-xl">

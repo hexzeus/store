@@ -1,5 +1,3 @@
-// src/app/product/[id]/page.tsx
-
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -72,9 +70,10 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                         <Image
                             src={selectedImage}
                             alt={`Product image of ${product.name}`}
-                            layout="fill"
-                            objectFit="cover"
-                            priority
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            quality={75}
+                            loading="lazy"
                         />
                     ) : (
                         <div className="w-full h-full bg-[hsl(var(--secondary))] flex items-center justify-center text-2xl">

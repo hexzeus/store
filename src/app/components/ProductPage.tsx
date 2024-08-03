@@ -1,8 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import ProductCard from '@/app/components/ProductCard';
+import dynamic from 'next/dynamic';
 import { Product } from '@/app/types/product';
+
+const ProductCard = dynamic(() => import('@/app/components/ProductCard'), {
+    loading: () => <p>Loading...</p>,
+});
 
 export default function ProductPage() {
     const [products, setProducts] = useState<Product[]>([]);
