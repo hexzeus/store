@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import printfulApi from '@/app/utils/printful';
 
 export async function GET(
-    request: Request,
     { params }: { params: { id: string } }
 ) {
     try {

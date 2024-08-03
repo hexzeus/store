@@ -42,7 +42,6 @@ function CheckoutForm() {
         setError(null);
 
         try {
-            // Process payment with Stripe
             const response = await fetch('/api/stripe/create-payment-intent', {
                 method: 'POST',
                 headers: {
@@ -92,7 +91,6 @@ function CheckoutForm() {
                 throw new Error('Payment not successful');
             }
 
-            // Create order in Printful
             const orderResponse = await fetch('/api/orders/create', {
                 method: 'POST',
                 headers: {

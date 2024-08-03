@@ -132,7 +132,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                                 style={imageAnimation}
                                 className="matrix-card p-8 space-y-6 matrix-hover"
                             >
-                                <AddToCartButton productId={product.id} variantId={selectedVariantId} />
+                                <AddToCartButton variantId={selectedVariantId} />
                             </animated.div>
 
                             <animated.div

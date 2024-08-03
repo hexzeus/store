@@ -15,8 +15,8 @@ export default function ProductCard({ product }: { product: Product }) {
                         <Image
                             src={product.thumbnail_url}
                             alt={product.name}
-                            layout="fill"
-                            objectFit="cover"
+                            fill
+                            style={{ objectFit: 'cover' }}
                             quality={75}
                             loading="lazy"
                             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"

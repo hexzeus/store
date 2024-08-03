@@ -1,15 +1,12 @@
-// src/app/components/AddToCartButton.tsx
-
 'use client';
 import { useState } from 'react';
 import { useCart } from '@/app/hooks/useCart';
 
 interface AddToCartButtonProps {
-    productId: number;
     variantId: number | undefined;
 }
 
-export default function AddToCartButton({ productId, variantId }: AddToCartButtonProps) {
+export default function AddToCartButton({ variantId }: AddToCartButtonProps) {
     const [isAdding, setIsAdding] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const { addToCart } = useCart();

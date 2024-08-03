@@ -1,15 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import printfulApi from '@/app/utils/printful';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== 'POST') {
-        res.setHeader('Allow', 'POST');
-        res.status(405).end('Method Not Allowed');
-        return;
-    }
-
+export async function POST(req: NextRequest) {
     try {
-        const { recipient, items } = req.body;
+        const { recipient, items } = await req.json();
 
         const order = {
             recipient,
@@ -22,9 +16,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const response = await printfulApi.post('/orders', order);
 
-        res.status(200).json({ orderId: response.data.result.id });
+        return NextResponse.json({ orderId: response.data.result.id }, { status: 200 });
     } catch (error) {
         console.error('Error creating order:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
+}
+
+export async function GET() {
+    return NextResponse.json({ message: 'This endpoint only accepts POST requests' }, { status: 405 });
 }
